@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#070913" />
+  <meta name="description" content="An interactive, accessible tour of Web3 fundamentals: blockchains, nodes, smart contracts, NFTs, and DAOs." />
+  <title>Web3, Block by Block — Interactive Audio Experience</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <header class="nav" role="banner">
+    <div class="nav__brand">
+      <span class="nav__logo-cube" aria-hidden="true"></span>
+      <span class="nav__mark">Web3, Block by Block</span>
+    </div>
+    <div class="nav__actions">
+      <!-- Sound Settings Toggle -->
+      <button id="sound-panel-btn" class="icon-toggle-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="sound-modal" aria-label="Audio settings" title="Audio settings">
+        <span id="sound-btn-icon" aria-hidden="true">🔊</span>
+      </button>
+
+      <!-- Connect Wallet Button -->
+      <button id="wallet-btn" class="wallet-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="wallet-modal" aria-label="Open wallet modal">
+        <span class="wallet-dot" aria-hidden="true"></span>
+        <span id="wallet-label">Connect wallet</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <div class="hero__badge">
+          <span class="badge-ping" aria-hidden="true"></span>
+          <span>Decentralized Architecture</span>
+        </div>
+        <h1 class="hero__title" id="hero-title">
+          The internet is being rebuilt, <span class="gradient-text">one block at a time.</span>
+        </h1>
+        <p class="hero__sub">
+          Web3 replaces corporate silos with mathematical verification and shared ownership.
+          Interact with the live simulations below to see how blocks, consensus, and tokens operate.
+        </p>
+        <div class="hero__actions">
+          <a href="#chain" class="hero__cta">
+            <span>Explore the Chain</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 13l5 5 5-5M12 4v14"/></svg>
+          </a>
+          <button type="button" class="hero__cta hero__cta--secondary" id="hero-wallet-trigger">
+            Open Wallet Lab
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Block Generator Visual -->
+      <div class="hero__block-container">
+        <div class="hero__block" id="hero-block-card" role="region" aria-label="Live mempool block simulator">
+          <div class="hero__block-header">
+            <span class="badge-live">MEMPOOL STREAM</span>
+            <span class="block-indicator" id="mining-status">Mining Block…</span>
+          </div>
+          <div class="hero__block-row">
+            <span>Block Height</span>
+            <strong id="hero-block-index">#000001</strong>
+          </div>
+          <div class="hero__block-hash-box">
+            <div class="hash-label-row">
+              <span class="hash-label">Block Hash</span>
+              <button type="button" class="btn-copy-inline" data-copy-target="hero-block-hash" aria-label="Copy Block Hash">Copy</button>
+            </div>
+            <div class="hero__block-hash" id="hero-block-hash">0x0000000000000000</div>
+          </div>
+          <div class="hero__block-row hero__block-row--dim">
+            <span>Parent Hash</span>
+            <span id="hero-block-prev">genesis</span>
+          </div>
+          <div class="hero__block-row hero__block-row--dim">
+            <span>Network Gas</span>
+            <span id="hero-gas-fee">14 Gwei</span>
+          </div>
+          <div class="hero__pulse-bar" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE CHAIN SECTION -->
+    <section id="chain" class="chain" aria-label="Web3 core timeline">
+      <div class="chain__line" aria-hidden="true">
+        <div class="chain__line-glow"></div>
+      </div>
+
+      <!-- 01: Blockchain & Live Hasher -->
+      <article class="block-card reveal" aria-labelledby="block-01-heading">
+        <div class="block__marker" aria-hidden="true"><span>01</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Core Ledger</span>
+            <span class="block__mobile-num">Block #01</span>
+          </div>
+          <h2 id="block-01-heading">Blockchain & Immutability</h2>
+          <p>
+            A blockchain is an append-only distributed ledger. Each block stores transactions and the cryptographic hash of the block before it. Changing any data alters its hash and breaks the entire chain.
+          </p>
+
+          <!-- Interactive Sandbox 1 -->
+          <div class="block__interactive">
+            <div class="interactive__title">
+              <span>⚡ Try it: Live SHA-256 Hasher</span>
+            </div>
+            <label for="hasher-input" class="sr-only">Input text to hash</label>
+            <input 
+              type="text" 
+              id="hasher-input" 
+              class="interactive__input" 
+              value="Alice sends 5 ETH to Bob" 
+              placeholder="Type any message..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="hasher-output">
+              <div class="hash-label-row">
+                <span class="output-label">Generated Digest:</span>
+                <button type="button" class="btn-copy-inline" data-copy-target="hasher-result" aria-label="Copy Hash">Copy</button>
+              </div>
+              <code id="hasher-result" tabindex="0">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02: Decentralization & Node Simulator -->
+      <article class="block-card reveal" aria-labelledby="block-02-heading">
+        <div class="block__marker" aria-hidden="true"><span>02</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Network Topology</span>
+            <span class="block__mobile-num">Block #02</span>
+          </div>
+          <h2 id="block-02-heading">Decentralization & Fault Tolerance</h2>
+          <p>
+            Traditional platforms rely on a central server. In Web3, independent computers ("nodes") validate state concurrently. Even if half of the global nodes fail, the network continues without interruption.
+          </p>
+
+          <!-- Interactive Sandbox 2 -->
+          <div class="block__interactive">
+            <div class="interactive__title">
+              <span>⚡ Try it: Node Outage Simulation</span>
+              <span class="status-pill status-pill--online" id="network-health-badge" role="status" aria-live="polite">100% Consensus</span>
+            </div>
+            <div class="nodes-grid" id="nodes-grid" role="group" aria-label="Validator Nodes Grid">
+              <div class="node-item node-online" data-node="1" role="status"><span>Node US-East</span></div>
+              <div class="node-item node-online" data-node="2" role="status"><span>Node EU-Central</span></div>
+              <div class="node-item node-online" data-node="3" role="status"><span>Node AP-East</span></div>
+              <div class="node-item node-online" data-node="4" role="status"><span>Node SA-East</span></div>
+              <div class="node-item node-online" data-node="5" role="status"><span>Node AF-South</span></div>
+              <div class="node-item node-online" data-node="6" role="status"><span>Node EU-West</span></div>
+            </div>
+            <div class="interactive__actions">
+              <button type="button" id="btn-toggle-nodes" class="sub-btn">Simulate 50% Node Outage</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03: Cryptocurrency & Faucet -->
+      <article class="block-card reveal" aria-labelledby="block-03-heading">
+        <div class="block__marker" aria-hidden="true"><span>03</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Native Currency</span>
+            <span class="block__mobile-num">Block #03</span>
+          </div>
+          <h2 id="block-03-heading">Cryptocurrency & Programmable Value</h2>
+          <p>
+            Tokens are verifiable native units of account on the network. You don’t need a bank account, credit check, or permission to transfer value globally in seconds.
+          </p>
+
+          <!-- Interactive Sandbox 3 -->
+          <div class="block__interactive">
+            <div class="interactive__title">
+              <span>⚡ Try it: Testnet Token Faucet</span>
+              <span class="faucet-counter" aria-live="polite">Balance: <strong id="faucet-balance">0.000</strong> tETH</span>
+            </div>
+            <div class="faucet-box">
+              <button type="button" id="btn-faucet" class="glow-action-btn">
+                <span>Drip 0.050 Testnet ETH</span>
+              </button>
+              <div id="faucet-tx-receipt" class="tx-receipt hidden" role="status" aria-live="polite">
+                <span class="tx-check" aria-hidden="true">✓</span>
+                <span id="faucet-tx-msg">Confirmed on Block #948214</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04: Smart Contracts -->
+      <article class="block-card reveal" aria-labelledby="block-04-heading">
+        <div class="block__marker" aria-hidden="true"><span>04</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Self-Executing Code</span>
+            <span class="block__mobile-num">Block #04</span>
+          </div>
+          <h2 id="block-04-heading">Smart Contracts</h2>
+          <p>
+            Programs deployed immutably to the chain. They execute strictly according to code logic with zero middlemen, automatically verifying conditions and delivering assets.
+          </p>
+
+          <!-- Interactive Sandbox 4 -->
+          <div class="block__interactive">
+            <div class="interactive__title">
+              <span>⚡ Try it: Ticket Escrow Contract Execution</span>
+            </div>
+            <div class="contract-flow" role="list">
+              <div class="flow-step" id="step-deposit" role="listitem">1. Deposit 1 ETH</div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" id="step-verify" role="listitem">2. Verify Condition</div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-step" id="step-mint" role="listitem">3. Mint VIP Ticket</div>
+            </div>
+            <div class="interactive__actions">
+              <button type="button" id="btn-run-contract" class="sub-btn sub-btn--gradient">
+                Trigger Contract Logic
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05: NFTs & Interactive Hologram -->
+      <article class="block-card reveal" aria-labelledby="block-05-heading">
+        <div class="block__marker" aria-hidden="true"><span>05</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Digital Ownership</span>
+            <span class="block__mobile-num">Block #05</span>
+          </div>
+          <h2 id="block-05-heading">NFTs & Provenance</h2>
+          <p>
+            Non-Fungible Tokens give unique cryptographic provenance to digital and physical items — from artwork and gaming assets to tokenized real estate and tickets.
+          </p>
+
+          <!-- Interactive Sandbox 5 -->
+          <div class="block__interactive nft-showcase">
+            <div 
+              class="nft-card-3d" 
+              id="nft-card" 
+              tabindex="0" 
+              role="region" 
+              aria-label="Interactive 3D Holographic NFT Card. Use arrow keys to tilt, Enter to reset."
+            >
+              <div class="nft-artwork" aria-hidden="true">
+                <div class="nft-gem">💎</div>
+              </div>
+              <div class="nft-info">
+                <div class="nft-title-row">
+                  <strong>Cyber Genesis #4401</strong>
+                  <span class="nft-rarity">Legendary</span>
+                </div>
+                <div class="nft-meta">
+                  <span>Owner: 0x93...a1C</span>
+                  <span>Standard: ERC-721</span>
+                </div>
+              </div>
+            </div>
+            <p class="nft-caption" aria-hidden="true">
+              Drag on screen, move mouse, or use arrow keys when focused to tilt.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 06: DAOs & Live Voting -->
+      <article class="block-card reveal" aria-labelledby="block-06-heading">
+        <div class="block__marker" aria-hidden="true"><span>06</span></div>
+        <div class="block__body">
+          <div class="block__header-meta">
+            <span class="block__tag">Collective Governance</span>
+            <span class="block__mobile-num">Block #06</span>
+          </div>
+          <h2 id="block-06-heading">DAOs (Decentralized Organizations)</h2>
+          <p>
+            Community members vote with governance tokens. The collective treasury cannot execute transfers unless a proposal reaches verified quorum on-chain.
+          </p>
+
+          <!-- Interactive Sandbox 6 -->
+          <div class="block__interactive">
+            <div class="dao-proposal-header">
+              <span class="proposal-id">AIP-42</span>
+              <span class="proposal-status">Active Voting</span>
+            </div>
+            <h3 class="dao-title">Fund Community Security Audit (50,000 USDC)</h3>
+            
+            <div class="dao-vote-bars" role="region" aria-label="Proposal voting tally">
+              <div class="dao-bar-row">
+                <div class="dao-label"><span>For</span><span id="vote-for-pct">74%</span></div>
+                <div class="dao-progress" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" aria-label="Votes for">
+                  <div class="dao-fill dao-fill--for" id="vote-for-bar" style="width: 74%"></div>
+                </div>
+              </div>
+              <div class="dao-bar-row">
+                <div class="dao-label"><span>Against</span><span id="vote-against-pct">26%</span></div>
+                <div class="dao-progress" role="progressbar" aria-valuenow="26" aria-valuemin="0" aria-valuemax="100" aria-label="Votes against">
+                  <div class="dao-fill dao-fill--against" id="vote-against-bar" style="width: 26%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dao-buttons">
+              <button type="button" id="btn-vote-for" class="vote-btn vote-btn--for">Vote For (+100 $DAO)</button>
+              <button type="button" id="btn-vote-against" class="vote-btn vote-btn--against">Vote Against (+100 $DAO)</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- LIVE WALLET TEST LAB SUMMARY SECTION -->
+    <section id="wallet" class="wallet reveal" aria-labelledby="wallet-lab-title">
+      <div class="wallet__card">
+        <div class="wallet__badge">WEB3 INTERACTION LAB</div>
+        <h2 id="wallet-lab-title">Connect Your Real Wallet</h2>
+        <p class="wallet__copy">
+          No transactions are initiated and no private keys are exposed. Experience how 
+          modern dApps read provider status, prompt network switching, and display on-chain balances.
+        </p>
+
+        <button id="wallet-btn-2" class="wallet-btn wallet-btn--large" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="wallet-modal">
+          <span class="wallet-dot" aria-hidden="true"></span>
+          <span id="wallet-label-2">Connect Web3 Wallet</span>
+        </button>
+
+        <div id="wallet-details" class="wallet__details" hidden>
+          <div class="wallet__detail-item">
+            <span>Account Address</span>
+            <div class="copy-val-wrap">
+              <strong id="wallet-address">—</strong>
+              <button type="button" class="btn-copy-inline" data-copy-target="wallet-address" aria-label="Copy Address">Copy</button>
+            </div>
+          </div>
+          <div class="wallet__detail-item">
+            <span>Connected Chain</span>
+            <div class="copy-val-wrap">
+              <strong id="wallet-network">—</strong>
+              <button type="button" class="btn-copy-inline" id="btn-switch-network" aria-label="Switch Network">Switch</button>
+            </div>
+          </div>
+          <div class="wallet__detail-item">
+            <span>Live Balance</span>
+            <strong id="wallet-balance" class="gradient-text">—</strong>
+          </div>
+          <div class="wallet__action-row">
+            <button type="button" class="sub-btn sub-btn--danger" id="btn-disconnect-wallet">Disconnect Session</button>
+          </div>
+        </div>
+
+        <p id="wallet-status" class="wallet__status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================
+       SOUND SETTINGS MODAL DIALOG
+       ========================================= -->
+  <div id="sound-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sound-modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="sound-modal-title">Audio & Haptic Settings</h3>
+        <button type="button" class="modal-close-btn" id="sound-modal-close" aria-label="Close audio settings">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Customize sound feedback and ambient synthesis. Preferences are saved automatically.</p>
+
+        <!-- Master Volume -->
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="volume-slider">Master Volume</label>
+            <span class="setting-caption" id="volume-val-display">70%</span>
+          </div>
+          <input type="range" id="volume-slider" min="0" max="100" value="70" class="range-slider" />
+        </div>
+
+        <!-- UI Click FX Toggle -->
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-label">Interaction Sound Effects</span>
+            <span class="setting-caption">Synthesized clicks and transaction chimes</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-sfx" checked />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <!-- Ambient Synth Drone Toggle -->
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-label">Ambient Sci-Fi Drone</span>
+            <span class="setting-caption">Generative low-frequency spatial hum</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-ambient" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <!-- Haptics Toggle -->
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-label">Tactile Haptics</span>
+            <span class="setting-caption">Mobile vibration feedback on actions</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-haptic" checked />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="modal-footnote" id="os-pref-notice">
+          ℹ️ Respects system reduced-motion and battery savers automatically.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       WALLET CONNECTION & NETWORK MODAL
+       ========================================= -->
+  <div id="wallet-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="wallet-modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="wallet-modal-title">Connect a Wallet</h3>
+        <button type="button" class="modal-close-btn" id="wallet-modal-close" aria-label="Close wallet connection dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Select your preferred Web3 provider to interact in read-only mode.</p>
+
+        <!-- Wallet Provider Options -->
+        <div class="wallet-options-list" id="wallet-provider-list">
+          <button type="button" class="wallet-provider-btn" data-provider="injected">
+            <span class="provider-icon">🦊</span>
+            <div class="provider-meta">
+              <strong>MetaMask or Browser Injected</strong>
+              <span>Extension or built-in mobile dApp browser</span>
+            </div>
+          </button>
+          <button type="button" class="wallet-provider-btn" data-provider="coinbase">
+            <span class="provider-icon">🔵</span>
+            <div class="provider-meta">
+              <strong>Coinbase Wallet</strong>
+              <span>Web or mobile extension</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Contextual Error Banner -->
+        <div id="wallet-error-box" class="wallet-error-banner hidden" role="alert">
+          <span class="error-icon" aria-hidden="true">⚠️</span>
+          <div class="error-text-wrap">
+            <strong id="wallet-error-title">Connection Error</strong>
+            <p id="wallet-error-desc">An error occurred while connecting.</p>
+          </div>
+        </div>
+
+        <!-- Network Switcher Section (Shown when connected or requested) -->
+        <div id="network-switch-section" class="network-switch-section hidden">
+          <label for="network-select" class="network-select-label">Select Active Chain:</label>
+          <div class="network-select-row">
+            <select id="network-select" class="network-select">
+              <option value="0x1">Ethereum Mainnet (0x1)</option>
+              <option value="0xaa36a7">Sepolia Testnet (0xaa36a7)</option>
+              <option value="0x89">Polygon PoS (0x89)</option>
+              <option value="0x2105">Base (0x2105)</option>
+              <option value="0xa4b1">Arbitrum One (0xa4b1)</option>
+              <option value="0xa">Optimism (0xa)</option>
+            </select>
+            <button type="button" id="btn-confirm-switch" class="sub-btn sub-btn--gradient">Apply Chain</button>
+          </div>
+        </div>
+
+        <div class="modal-footnote">
+          🔒 Secure & Sandbox: Your private keys never leave your device.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="nav__brand">
+        <span class="nav__logo-cube" aria-hidden="true"></span>
+        <span class="nav__mark">Web3, Block by Block</span>
+      </div>
+      <p>Built to demystify peer-to-peer protocols. No financial advice — purely educational code.</p>
+      <div class="footer__links">
+        <a href="#hero">Top of Page ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
